@@ -5,7 +5,11 @@ FROM jupyter/scipy-notebook:76402a27fd13
 # Because of the base image I need to be more precise on where I copy them to.
 # (https://mybinder.readthedocs.io/en/latest/tutorials/dockerfile.html#preparing-your-dockerfile)
 USER root
-COPY apt.txt ${HOME}
+COPY apt.txt .
+
+# pyvista is tricky, I need some extra linux libraries. Jupyter docker images are ubuntu based, so I use apt-get to install these linux dependencies
+RUN apt-get install -f apt.txt
+
 COPY environment.yml ${HOME}
 COPY start ${HOME}
 COPY presentation.ipynb ${HOME}
@@ -13,8 +17,7 @@ COPY presentation.ipynb ${HOME}
 RUN chown -R ${NB_UID} ${HOME}
 USER ${NB_USER}
 
-# pyvista is tricky, I need some extra linux libraries. Jupyter docker images are ubuntu based, so I use apt-get to install these linux dependencies
-RUN apt-get install -f apt.txt
+
 
 # I do a conda install the python dependencies for the notebook
 RUN conda update -n base conda
