@@ -9,6 +9,9 @@ COPY apt.txt ${HOME}
 COPY environment.yml ${HOME}
 COPY start ${HOME}
 COPY presentation.ipynb ${HOME}
+# I then change ownership of the files to the notebook user
+RUN chown -R ${NB_UID} ${HOME}
+USER ${NB_USER}
 
 # pyvista is tricky, I need some extra linux libraries. Jupyter docker images are ubuntu based, so I use apt-get to install these linux dependencies
 RUN apt-get install -f apt.txt
@@ -16,10 +19,6 @@ RUN apt-get install -f apt.txt
 # I do a conda install the python dependencies for the notebook
 RUN conda update -n base conda
 RUN conda install --quiet --yes -c conda-forge --file environment.yml
-
-# I then change ownership of the files to the notebook user
-RUN chown -R ${NB_UID} ${HOME}
-USER ${NB_USER}
 
 # Finally for pyvista to function I need to run a script at startup
 ENTRYPOINT ["/bin/sh", "start"]
