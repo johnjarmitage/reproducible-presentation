@@ -1,0 +1,34 @@
+name: reproducible-presentation
+channels:
+  - conda-forge
+  - pyviz
+dependencies:
+  - python>=3
+  - matplotlib
+  - scipy
+  - jupyterlab
+  - voila
+  - voila-reveal
+  - rise
+  - jupyter_nbextensions_configurator
+  - vtk
+  - pyvista
+  - pyqt
+  - ipywidgets
+  - itkwidgets
+  - bokeh
+  - pyviz_comms
+  - panel
+  - nodejs
+  - pandas
+  - geopandas
+  # flem
+  - fenics=2019.1.0=py37_1
+  - mshr=2019.1.0=py37h7596e34_1000
+  - gdal
+  - peakutils
+  - pip
+  - pip:
+    - flem
+    - elevation
+
